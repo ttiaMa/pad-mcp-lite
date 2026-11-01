@@ -12,6 +12,20 @@
 | `search_actions` | Actions matching a keyword or module. Look up an exact `action_id` for parameters and a Robin example. |
 | `search_type_reference` | Types matching a keyword. Look up an exact `type_name` for its format and an edition-specific example. |
 
+## Try it right now on my instance
+
+**Codex**
+
+```sh
+codex mcp add pad-mcp-lite --url https://pad-mcp-lite.mathya.it/mcp
+```
+
+**Claude Code**
+
+```sh
+claude mcp add --transport http pad-mcp-lite https://pad-mcp-lite.mathya.it/mcp
+```
+
 ## Run locally
 
 ```sh
