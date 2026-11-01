@@ -2,29 +2,25 @@
   <img src="assets/pad-mcp-lite-azure.png" alt="pad-mcp-lite" width="260">
 </p>
 
-**A Robin reference for agents building Power Automate Desktop flows.** Look up actions, parameter types and syntax for Classic and Power Fx through a single read-only MCP endpoint.
+**Build Power Automate Desktop flows with your AI agent.** Your agent can look up actions, check parameter types and find code examples for both Classic and Power Fx flows.
 
-> **Bring your team's Robin code.** Publish reusable snippets and coding conventions so agents can draw on them when building flows. [Explore pad-mcp →](https://github.com/ttiaMa/pad-mcp)
+**Try it on my instance**
+
+```sh
+# Codex
+codex mcp add pad-mcp-lite --url https://pad-mcp-lite.mathya.it/mcp
+
+# Claude Code
+claude mcp add --transport http pad-mcp-lite https://pad-mcp-lite.mathya.it/mcp
+```
 
 | Tool | What it returns |
 | --- | --- |
-| `get_development_context` | Shared Robin guidance and the rules for the selected edition. |
-| `search_actions` | Actions matching a keyword or module. Look up an exact `action_id` for parameters and a Robin example. |
-| `search_type_reference` | Types matching a keyword. Look up an exact `type_name` for its format and an edition-specific example. |
+| `get_development_context` | Syntax and flow-writing guidance for the selected edition. |
+| `search_actions` | Matching actions. Look up an exact `action_id` for parameters and an example in Robin, the scripting language used by Power Automate Desktop. |
+| `search_type_reference` | Matching parameter types. Look up an exact `type_name` for its format and an example. |
 
-## Try it right now on my instance
-
-**Codex**
-
-```sh
-codex mcp add pad-mcp-lite --url https://pad-mcp-lite.mathya.it/mcp
-```
-
-**Claude Code**
-
-```sh
-claude mcp add --transport http pad-mcp-lite https://pad-mcp-lite.mathya.it/mcp
-```
+Want your agent to reuse flows your team has already written? Publish your team's snippets and coding conventions on your own instance of [pad-mcp](https://github.com/ttiaMa/pad-mcp).
 
 ## Run locally
 
