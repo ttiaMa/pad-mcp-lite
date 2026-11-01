@@ -2,7 +2,7 @@
   <img src="assets/pad-mcp-lite-azure.png" alt="pad-mcp-lite" width="260">
 </p>
 
-**Build Power Automate Desktop flows with your AI agent.** Your agent can look up actions, check parameter types and find code examples for both Classic and Power Fx flows. Paste the generated code into the Power Automate Desktop flow designer.
+**Build Power Automate Desktop flows with your AI agent.** Your agent can look up actions, check parameter types and find code examples for both Classic and Power Fx flows. Paste the generated code directly into the flow designer.
 
 **Try it on my instance right now**
 
