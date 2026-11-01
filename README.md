@@ -1,8 +1,8 @@
 <p align="center">
-  <img src="assets/pad-mcp-light.png" alt="PAD MCP Light" width="260">
+  <img src="assets/pad-mcp-lite.png" alt="pad-mcp-lite" width="260">
 </p>
 
-**PAD MCP Light** helps MCP clients write Power Automate Desktop flows using the bundled Robin action and type catalogs for Classic and Power Fx. It runs as a single anonymous, read-only Streamable HTTP service.
+**pad-mcp-lite** helps MCP clients write Power Automate Desktop flows using the bundled Robin action and type catalogs for Classic and Power Fx. It runs as a single anonymous, read-only Streamable HTTP service.
 
 | Tool | What it returns |
 | --- | --- |
@@ -13,8 +13,8 @@
 ## Run locally
 
 ```sh
-git clone https://github.com/ttiaMa/pad-mcp-light.git
-cd pad-mcp-light
+git clone https://github.com/ttiaMa/pad-mcp-lite.git
+cd pad-mcp-lite
 docker compose -f compose.yaml -f compose.local.yaml up --build -d
 ```
 
@@ -22,7 +22,7 @@ Connect your MCP client to `http://localhost:8080/mcp` using **Streamable HTTP**
 
 ## Self-host
 
-In Coolify, deploy `compose.yaml` from this repository. Set `PUBLIC_URL` to your HTTPS origin and route the domain to `pad-mcp-light` on port `8080`. With another reverse proxy, preserve the Host header and disable response buffering on `/mcp`.
+In Coolify, deploy `compose.yaml` from this repository. Set `PUBLIC_URL` to your HTTPS origin and route the domain to `pad-mcp-lite` on port `8080`. With another reverse proxy, preserve the Host header and disable response buffering on `/mcp`.
 
 Each instance accepts **200 requests per rolling minute**, shared across clients. Set `MCP_CALL_RATE_LIMIT_PER_MINUTE` to override the limit. A throttled request returns HTTP 429 with `Retry-After`. The health endpoint is `/healthz`.
 

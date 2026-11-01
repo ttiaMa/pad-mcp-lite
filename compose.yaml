@@ -1,5 +1,5 @@
 services:
-  pad-mcp-light:
+  pad-mcp-lite:
     build: .
     init: true
     restart: unless-stopped

@@ -5,7 +5,7 @@ if (!Number.isInteger(port) || port < 1 || port > 65535) throw new Error('Invali
 const publicUrl = process.env.PUBLIC_URL ?? 'http://localhost:' + port;
 const listener = createListener(publicUrl, Number(process.env.MCP_CALL_RATE_LIMIT_PER_MINUTE ?? 200));
 listener.listen(port, process.env.HOST ?? '127.0.0.1', () => {
-  console.log('pad-mcp-light ready at ' + new URL('/mcp', publicUrl));
+  console.log('pad-mcp-lite ready at ' + new URL('/mcp', publicUrl));
 });
 for (const signal of ['SIGINT', 'SIGTERM']) {
   process.once(signal, () => listener.close());
