@@ -1,8 +1,10 @@
 <p align="center">
-  <img src="assets/pad-mcp-lite.png" alt="pad-mcp-lite" width="260">
+  <img src="assets/pad-mcp-lite-azure.png" alt="pad-mcp-lite" width="260">
 </p>
 
-**pad-mcp-lite** helps MCP clients write Power Automate Desktop flows using the bundled Robin action and type catalogs for Classic and Power Fx. It runs as a single anonymous, read-only Streamable HTTP service.
+**A Robin reference for agents building Power Automate Desktop flows.** Look up actions, parameter types and syntax for Classic and Power Fx through a single read-only MCP endpoint.
+
+> **Bring your team's Robin code.** Publish reusable snippets and coding conventions so agents can draw on them when building flows. [Explore pad-mcp →](https://github.com/ttiaMa/pad-mcp)
 
 | Tool | What it returns |
 | --- | --- |
@@ -18,14 +20,14 @@ cd pad-mcp-lite
 docker compose -f compose.yaml -f compose.local.yaml up --build -d
 ```
 
-Connect your MCP client to `http://localhost:8080/mcp` using **Streamable HTTP** with authentication disabled. Ask it to find an Excel action in Classic or Power Fx.
+Connect your MCP client to `http://localhost:8080/mcp` using **Streamable HTTP** with authentication disabled.
 
 ## Self-host
 
-In Coolify, deploy `compose.yaml` from this repository. Set `PUBLIC_URL` to your HTTPS origin and route the domain to `pad-mcp-lite` on port `8080`. With another reverse proxy, preserve the Host header and disable response buffering on `/mcp`.
+Deploy with Docker Compose. Set `PUBLIC_URL` to your HTTPS origin and route traffic to the service on port `8080`. Clients connect at `/mcp`.
 
-Each instance accepts **200 requests per rolling minute**, shared across clients. Set `MCP_CALL_RATE_LIMIT_PER_MINUTE` to override the limit. A throttled request returns HTTP 429 with `Retry-After`. The health endpoint is `/healthz`.
+Each instance accepts **200 requests per rolling minute**, shared across clients. Override the limit with `MCP_CALL_RATE_LIMIT_PER_MINUTE`.
 
 For local development with Node.js 24 or newer, run `npm ci`, then `npm test` or `npm start`.
 
-Server code is [MIT licensed](LICENSE). The [bundled catalogs](catalogs/NOTICE.md) are by Joe Green, licensed under CC BY 4.0. For team snippets and publishing, see [PAD MCP](https://github.com/ttiaMa/pad-mcp).
+[MIT licensed](LICENSE) · [Catalog attribution](catalogs/NOTICE.md)
