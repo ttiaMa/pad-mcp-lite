@@ -1,43 +1,31 @@
-# PAD MCP Light
+<p align="center">
+  <img src="assets/pad-mcp-light.png" alt="PAD MCP Light" width="260">
+</p>
 
-A self-hosted MCP server for looking up Power Automate Desktop actions while writing Robin flows. It serves the bundled Classic and Power Fx action catalogs through one anonymous, read-only Streamable HTTP endpoint at `/mcp`.
+**PAD MCP Light** helps MCP clients write Power Automate Desktop flows using the bundled Robin action and type catalogs for Classic and Power Fx. It runs as a single anonymous, read-only Streamable HTTP service.
 
-Light runs from a clone with no database, API keys or persistent volumes. For team snippets, publishing and access management, see [PAD MCP](https://github.com/ttiaMa/pad-mcp).
+| Tool | What it returns |
+| --- | --- |
+| `get_development_context` | Shared Robin guidance and the rules for the selected edition. |
+| `search_actions` | Actions matching a keyword or module. Look up an exact `action_id` for parameters and a Robin example. |
+| `search_type_reference` | Types matching a keyword. Look up an exact `type_name` for its format and an edition-specific example. |
 
-## Run locally with Docker Compose
+## Run locally
 
 ```sh
 git clone https://github.com/ttiaMa/pad-mcp-light.git
 cd pad-mcp-light
 docker compose -f compose.yaml -f compose.local.yaml up --build -d
-curl http://localhost:8080/healthz
 ```
 
-The health check returns `{"status":"ok"}`. In your MCP client, select **Streamable HTTP**, enter `http://localhost:8080/mcp` and leave authentication empty. Ask the assistant to find the Excel action for activating a cell in a Classic flow.
+Connect your MCP client to `http://localhost:8080/mcp` using **Streamable HTTP** with authentication disabled. Ask it to find an Excel action in Classic or Power Fx.
 
-## Deploy from the repository
+## Self-host
 
-In Coolify, select **Docker Compose**, point the deployment at this repository and use `compose.yaml`. Set `PUBLIC_URL` to your external HTTPS origin (for example, `https://pad.example.com`) and route that domain to service `pad-mcp-light` on container port `8080`. Connect clients to `https://pad.example.com/mcp`.
+In Coolify, deploy `compose.yaml` from this repository. Set `PUBLIC_URL` to your HTTPS origin and route the domain to `pad-mcp-light` on port `8080`. With another reverse proxy, preserve the Host header and disable response buffering on `/mcp`.
 
-On another Docker host, set the same `PUBLIC_URL` in a local `.env`, run `docker compose up --build -d`, and attach your HTTPS reverse proxy to the service network. Preserve the original Host header and disable proxy buffering on `/mcp` so streamed responses reach clients as they arrive. The base Compose file exposes the port inside the Docker network. The local override binds it to loopback for testing.
+Each instance accepts **200 requests per rolling minute**, shared across clients. Set `MCP_CALL_RATE_LIMIT_PER_MINUTE` to override the limit. A throttled request returns HTTP 429 with `Retry-After`. The health endpoint is `/healthz`.
 
-## Request limit
+For local development with Node.js 24 or newer, run `npm ci`, then `npm test` or `npm start`.
 
-The instance accepts up to 100 POST requests to `/mcp` in a rolling 60-second window. All anonymous clients share this budget, including protocol handshakes. Excess requests receive HTTP 429 with a `Retry-After` header in seconds. Health checks are exempt. Set `MCP_CALL_RATE_LIMIT_PER_MINUTE` to a positive integer in the Compose `.env` file or the deployment environment to change the limit. Each replica maintains its own window in memory.
-
-## The two tools
-
-| Tool | Inputs and result |
-| --- | --- |
-| `get_development_context` | Call with `{}` to see the edition choices. Pass `power_fx` as `disabled` (Classic) or `enabled` (Power Fx) to get edition-specific guidance, catalog version and PAD build. |
-| `search_actions` | Pass the selected `power_fx` with an English `query`, a case-insensitive exact `module`, or both. Returns up to five compact matches by default. Set `max_results` to 1–20. Use `action_id` instead of search terms to retrieve a complete record. |
-
-For example, call `search_actions` with `{"power_fx":"disabled","module":"Excel","query":"activate cell"}`, then with `{"power_fx":"disabled","action_id":"Excel.ActivateCellInExcel.ActivateCell"}`. The full record includes the template, example, parameters and selector constraints. An unknown ID returns `{"record":null}`. Requests are stateless, so send the edition on each lookup.
-
-## Develop locally
-
-With Node.js 24 or newer, run `npm ci`, then `npm test` or `npm start`. The server binds to `127.0.0.1:8080` by default. Override `HOST` and `PORT` to change the listener and `PUBLIC_URL` to set the accepted public origin. The integration tests connect an MCP client over HTTP and exercise both catalog editions.
-
-## Licenses
-
-The server code uses the [MIT license](LICENSE). The two bundled action catalogs are by Joe Green and use CC BY 4.0. Their source revision and attribution are in the [catalog notice](catalogs/NOTICE.md).
+Server code is [MIT licensed](LICENSE). The [bundled catalogs](catalogs/NOTICE.md) are by Joe Green, licensed under CC BY 4.0. For team snippets and publishing, see [PAD MCP](https://github.com/ttiaMa/pad-mcp).

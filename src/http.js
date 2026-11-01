@@ -4,7 +4,7 @@ import { toNodeHandler } from '@modelcontextprotocol/node';
 import { createServer } from './tools.js';
 import { createRateLimit } from './rate-limit.js';
 
-export function createListener(publicUrl, callsPerMinute = 100) {
+export function createListener(publicUrl, callsPerMinute = 200) {
   const retryAfter = createRateLimit(callsPerMinute);
   const origin = new URL(publicUrl);
   if (!['https:', 'http:'].includes(origin.protocol) || origin.href !== origin.origin + '/') {

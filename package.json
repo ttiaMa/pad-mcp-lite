@@ -4,7 +4,7 @@
   "license": "MIT",
   "private": true,
   "type": "module",
-  "description": "Read-only Power Automate Desktop action catalog over MCP Streamable HTTP",
+  "description": "Read-only Power Automate Desktop action and type catalogs over MCP Streamable HTTP",
   "engines": {
     "node": ">=24.0.0"
   },

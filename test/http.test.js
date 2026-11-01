@@ -45,7 +45,7 @@ for (const mode of ['legacy', { pin: '2026-07-28' }]) {
     assert.equal((await fetch(endpoint)).status, 405);
     assert.equal((await fetch(new URL('/healthz', endpoint))).status, 200);
     const names = (await client.listTools()).tools.map(tool => tool.name).sort();
-    assert.deepEqual(names, ['get_development_context', 'search_actions']);
+    assert.deepEqual(names, ['get_development_context', 'search_actions', 'search_type_reference']);
     const call = async (name, args) => {
       const reply = await client.callTool({ name, arguments: args });
       assert.ok(!reply.isError, reply.content[0].text);
@@ -56,6 +56,18 @@ for (const mode of ['legacy', { pin: '2026-07-28' }]) {
       const context = await call(names[0], { power_fx });
       assert.equal(context.power_fx, power_fx);
       assert.equal(Boolean(context.catalog.value_syntax), power_fx === 'enabled');
+      const [common, modePrompt] = context.guidance;
+      assert.match(common, /search_type_reference/);
+      assert.match(modePrompt, power_fx === 'enabled' ? /IF \$fx'/ : /IF condition THEN/);
+      assert.ok(context.catalog.type_rules.length);
+      const types = await call('search_type_reference', { power_fx, query: 'String', max_results: 1 });
+      assert.equal(types.results[0].type, 'String');
+      const { record: string } = await call('search_type_reference', { power_fx, type_name: 'String' });
+      assert.equal(string.example, power_fx === 'enabled' ? "$fx'example'" : "$'''example'''");
+      const generic = await call('search_type_reference', { power_fx, type_name: 'List`1' });
+      assert.equal(generic.record.type, 'List`1');
+      assert.equal((await call('search_type_reference', { power_fx, type_name: 'MissingType' })).record, null);
+      assert.ok((await client.callTool({ name: 'search_type_reference', arguments: { power_fx, query: 'text', type_name: 'String' } })).isError);
       const matches = await call(names[1], { power_fx, query: 'activate cell', module: 'Excel', max_results: 1 });
       assert.equal(matches.results.length, 1);
       assert.equal(matches.truncated, true);
