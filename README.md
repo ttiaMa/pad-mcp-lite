@@ -2,16 +2,16 @@
   <img src="assets/pad-mcp-lite-azure.png" alt="pad-mcp-lite" width="260">
 </p>
 
-**Build Power Automate Desktop flows with your AI agent.** Your agent can look up actions, check parameter types and find code examples for both Classic and Power Fx flows.
+**Build Power Automate Desktop flows with your AI agent.** Your agent can look up actions, check parameter types and find code examples for both Classic and Power Fx flows. Paste the generated code into the Power Automate Desktop flow designer.
 
-**Try it on my instance**
+**Try it on my instance right now**
 
 ```sh
-# Codex
-codex mcp add pad-mcp-lite --url https://pad-mcp-lite.mathya.it/mcp
-
 # Claude Code
 claude mcp add --transport http pad-mcp-lite https://pad-mcp-lite.mathya.it/mcp
+
+# Codex
+codex mcp add pad-mcp-lite --url https://pad-mcp-lite.mathya.it/mcp
 ```
 
 | Tool | What it returns |
@@ -20,7 +20,7 @@ claude mcp add --transport http pad-mcp-lite https://pad-mcp-lite.mathya.it/mcp
 | `search_actions` | Matching actions. Look up an exact `action_id` for parameters and an example in Robin, the scripting language used by Power Automate Desktop. |
 | `search_type_reference` | Matching parameter types. Look up an exact `type_name` for its format and an example. |
 
-Want your agent to reuse flows your team has already written? Publish your team's snippets and coding conventions on your own instance of [pad-mcp](https://github.com/ttiaMa/pad-mcp).
+Want your agent to reuse flows your team has already written? Publish your team's snippets and coding conventions on your own instance. **[Explore pad-mcp →](https://github.com/ttiaMa/pad-mcp)**
 
 ## Run locally
 
