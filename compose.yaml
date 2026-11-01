@@ -5,6 +5,7 @@ services:
     restart: unless-stopped
     environment:
       PUBLIC_URL: ${PUBLIC_URL:-http://localhost:8080}
+      MCP_CALL_RATE_LIMIT_PER_MINUTE: ${MCP_CALL_RATE_LIMIT_PER_MINUTE:-100}
     expose:
       - "8080"
     healthcheck:

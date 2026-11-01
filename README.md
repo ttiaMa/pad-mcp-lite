@@ -21,6 +21,10 @@ In Coolify, select **Docker Compose**, point the deployment at this repository a
 
 On another Docker host, set the same `PUBLIC_URL` in a local `.env`, run `docker compose up --build -d`, and attach your HTTPS reverse proxy to the service network. Preserve the original Host header and disable proxy buffering on `/mcp` so streamed responses reach clients as they arrive. The base Compose file exposes the port inside the Docker network. The local override binds it to loopback for testing.
 
+## Request limit
+
+The instance accepts up to 100 POST requests to `/mcp` in a rolling 60-second window. All anonymous clients share this budget, including protocol handshakes. Excess requests receive HTTP 429 with a `Retry-After` header in seconds. Health checks are exempt. Set `MCP_CALL_RATE_LIMIT_PER_MINUTE` to a positive integer in the Compose `.env` file or the deployment environment to change the limit. Each replica maintains its own window in memory.
+
 ## The two tools
 
 | Tool | Inputs and result |

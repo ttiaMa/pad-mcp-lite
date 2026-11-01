@@ -3,6 +3,33 @@ import assert from 'node:assert/strict';
 import { once } from 'node:events';
 import { Client, StreamableHTTPClientTransport } from '@modelcontextprotocol/client';
 import { createListener } from '../src/http.js';
+import { createRateLimit } from '../src/rate-limit.js';
+
+test('rolling budget releases requests individually after 60 seconds', () => {
+  let time = 0;
+  const retry = createRateLimit(2, () => time);
+  assert.equal(retry(), 0);
+  time = 5000;
+  assert.equal(retry(), 0);
+  assert.equal(retry(), 55);
+  time = 60_000;
+  assert.equal(retry(), 0);
+  assert.equal(retry(), 5);
+  assert.throws(() => createRateLimit(0), /positive integer/);
+});
+
+test('anonymous POSTs share a limit and health checks remain available', async t => {
+  const listener = createListener('https://pad.example', 1);
+  listener.listen(0, '127.0.0.1');
+  await once(listener, 'listening');
+  t.after(() => new Promise(resolve => listener.close(resolve)));
+  const base = 'http://127.0.0.1:' + listener.address().port;
+  await fetch(base + '/mcp', { method: 'POST' });
+  const blocked = await fetch(base + '/mcp', { method: 'POST', headers: { 'X-Forwarded-For': '192.0.2.1' } });
+  assert.equal(blocked.status, 429);
+  assert.ok(Number(blocked.headers.get('Retry-After')) > 0);
+  assert.equal((await fetch(base + '/healthz')).status, 200);
+});
 
 for (const mode of ['legacy', { pin: '2026-07-28' }]) {
   test('anonymous Streamable HTTP using ' + JSON.stringify(mode), async t => {
