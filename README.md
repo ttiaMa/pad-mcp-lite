@@ -22,22 +22,33 @@ codex mcp add pad-mcp-lite --url https://pad-mcp-lite.mathya.it/mcp
 
 Want your agent to reuse flows your team has already written? Publish your team's snippets and coding conventions on your own instance. **[Explore pad-mcp →](https://github.com/ttiaMa/pad-mcp)**
 
-## Run locally
+## Run with Docker
+
+You’ll need Git and Docker with Compose. Clone the repository on the machine that will run the server.
 
 ```sh
 git clone https://github.com/ttiaMa/pad-mcp-lite.git
 cd pad-mcp-lite
+```
+
+**Local access**
+
+Run the following command, then connect your MCP client to `http://localhost:8080/mcp`.
+
+```sh
 docker compose -f compose.yaml -f compose.local.yaml up --build -d
 ```
 
-Connect your MCP client to `http://localhost:8080/mcp` using **Streamable HTTP** with authentication disabled.
+**Public access**
 
-## Self-host
+Point your domain at the server. Set `PUBLIC_URL=https://pad.example.com` in the project's `.env` file, using your own domain, then start the service.
 
-Deploy with Docker Compose. Set `PUBLIC_URL` to your HTTPS origin and route traffic to the service on port `8080`. Clients connect at `/mcp`.
+```sh
+docker compose up --build -d
+```
+
+Connect your HTTPS reverse proxy to the service's Docker network and forward requests to `pad-mcp-lite:8080`, preserving the original `Host` header. Clients can then connect at `https://pad.example.com/mcp` on your domain.
 
 Each instance accepts **200 requests per rolling minute**, shared across clients. Override the limit with `MCP_CALL_RATE_LIMIT_PER_MINUTE`.
-
-For local development with Node.js 24 or newer, run `npm ci`, then `npm test` or `npm start`.
 
 [MIT licensed](LICENSE) · [Catalog attribution](catalogs/NOTICE.md)
