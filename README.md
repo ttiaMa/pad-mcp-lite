@@ -20,6 +20,8 @@ codex mcp add pad-mcp-lite --url https://pad-mcp-lite.mathya.it/mcp
 | `search_actions` | Matching actions. Look up an exact `action_id` for parameters and an example in Robin, the scripting language used by Power Automate Desktop. |
 | `search_type_reference` | Matching parameter types. Look up an exact `type_name` for its format and an example. |
 
+When a UI example refers to a placeholder, record the target element in your application and use its name in the flow.
+
 Want your agent to reuse flows your team has already written? Publish your team's snippets and coding conventions on your own instance. **[Explore pad-mcp →](https://github.com/ttiaMa/pad-mcp)**
 
 ## Or self-host it with Docker

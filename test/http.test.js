@@ -74,6 +74,7 @@ for (const mode of ['legacy', { pin: '2026-07-28' }]) {
       const action_id = matches.results[0].actionId;
       const { record } = await call(names[1], { power_fx, action_id });
       assert.equal(record.actionId, action_id);
+      assert.equal(Object.hasOwn(record, 'validation'), false);
       assert.ok(record.golden_example);
       assert.equal((await call(names[1], { power_fx, action_id: 'Missing.Action' })).record, null);
       assert.ok((await client.callTool({ name: names[1], arguments: { power_fx, action_id, query: 'cell' } })).isError);

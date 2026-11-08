@@ -49,7 +49,12 @@ function rankedPage(index, query, maxResults, preview) {
 
 export function searchActions({ power_fx, action_id, query, module, max_results }) {
   const { index } = catalogs[power_fx];
-  if (action_id) return { record: index.find(item => item.id === action_id)?.record ?? null };
+  if (action_id) {
+    const record = index.find(item => item.id === action_id)?.record;
+    if (!record) return { record: null };
+    const { validation, ...detail } = record;
+    return { record: detail };
+  }
   const candidates = module ? index.filter(({ record }) => record.module.toLowerCase() === module.toLowerCase()) : index;
   return rankedPage(candidates, query, max_results, record => ({
       actionId: record.actionId, module: record.module, kind: record.kind, selector: record.selector,
