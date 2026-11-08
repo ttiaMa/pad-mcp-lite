@@ -22,7 +22,7 @@ codex mcp add pad-mcp-lite --url https://pad-mcp-lite.mathya.it/mcp
 
 Want your agent to reuse flows your team has already written? Publish your team's snippets and coding conventions on your own instance. **[Explore pad-mcp →](https://github.com/ttiaMa/pad-mcp)**
 
-## Run with Docker
+## Or self-host it with Docker
 
 ### 1. Clone the repository
 
