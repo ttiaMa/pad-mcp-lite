@@ -4,7 +4,7 @@
 
 **Build Power Automate Desktop flows with your AI agent.** Your agent can look up actions, check parameter types and find code examples for both Classic and Power Fx flows. Paste the generated code directly into the flow designer.
 
-**Try it on my instance right now**
+**Try it on my instance right now** · [Check service status here](https://uptimekuma.mathya.it/status/pad-mcp-lite)
 
 ```sh
 # Claude Code
