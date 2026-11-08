@@ -1,6 +1,7 @@
 <p align="center">
   <img src="assets/pad-mcp-lite-azure.png" alt="pad-mcp-lite" width="260">
 </p>
+<p align="center"><sub><em>Release 1.0.1 contains references for PAD 2.74.00191.26302 · <a href="https://github.com/ttiaMa/pad-mcp-lite/releases/tag/v1.0.1">Release notes</a></em></sub></p>
 
 **Build Power Automate Desktop flows with your AI agent.** Your agent can look up actions, check parameter types and find code examples for both Classic and Power Fx flows. Paste the generated code directly into the flow designer.
 
