@@ -51,4 +51,4 @@ Connect your HTTPS reverse proxy to the service's Docker network and forward req
 
 Each instance accepts **200 requests per rolling minute**, shared across clients. Override the limit with `MCP_CALL_RATE_LIMIT_PER_MINUTE`.
 
-[MIT licensed](LICENSE) · [Catalog attribution](catalogs/NOTICE.md)
+[MIT licensed](LICENSE) · [Catalog attribution](catalogs/NOTICE.md) · [Privacy Policy](PRIVACY.md) · [Terms of Service](TERMS.md)
