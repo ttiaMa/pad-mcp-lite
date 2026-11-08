@@ -24,12 +24,16 @@ Want your agent to reuse flows your team has already written? Publish your team'
 
 ## Run with Docker
 
+### 1. Clone the repository
+
 You’ll need Git and Docker with Compose. Clone the repository on the machine that will run the server.
 
 ```sh
 git clone https://github.com/ttiaMa/pad-mcp-lite.git
 cd pad-mcp-lite
 ```
+
+### 2. Choose local or public access
 
 **Local access**
 
@@ -41,13 +45,15 @@ docker compose -f compose.yaml -f compose.local.yaml up --build -d
 
 **Public access**
 
-Point your domain at the server. Set `PUBLIC_URL=https://pad.example.com` in the project's `.env` file, using your own domain, then start the service.
+Point your domain at the server. Set `PUBLIC_URL=https://your-domain.com` in the project's `.env` file, using your own domain, then start the service.
 
 ```sh
 docker compose up --build -d
 ```
 
-Connect your HTTPS reverse proxy to the service's Docker network and forward requests to `pad-mcp-lite:8080`, preserving the original `Host` header. Clients can then connect at `https://pad.example.com/mcp` on your domain.
+Connect your HTTPS reverse proxy to the service's Docker network and forward requests to `pad-mcp-lite:8080`, preserving the original `Host` header.
+
+Connect your AI agent to `https://your-domain.com/mcp`, replacing `your-domain.com` with the domain you configured.
 
 Each instance accepts **200 requests per rolling minute**, shared across clients. Override the limit with `MCP_CALL_RATE_LIMIT_PER_MINUTE`.
 
