@@ -16,9 +16,10 @@ const optionalText = max => z.string().trim().min(1).max(max).optional();
 const lookup = { power_fx: edition, query: optionalText(500), max_results: z.number().int().min(1).max(20).default(5) };
 
 export function createServer() {
-  const server = new McpServer({ name: pkg.name, version: pkg.version }, { instructions });
+  const server = new McpServer({ name: pkg.name, title: 'PAD MCP Lite', version: pkg.version }, { instructions });
   server.registerTool('get_development_context', {
-    description: 'Select an edition and get Robin authoring guidance. Omit power_fx to see the choices.',
+    title: 'Get PAD Development Context',
+    description: 'Get Robin authoring guidance for Power Automate Desktop Classic or Power Fx flows from the bundled catalog. Omit power_fx to see the edition choices. This tool provides reference information; it does not open or run desktop flows.',
     inputSchema: z.strictObject({ power_fx: edition.optional() }), annotations
   }, ({ power_fx }) => {
     if (!power_fx) return result({ status: 'selection_required', instructions });
@@ -28,7 +29,8 @@ export function createServer() {
     });
   });
   server.registerTool('search_actions', {
-    description: 'Find actions by English query and/or exact module, or supply an exact action_id alone for its full catalog record.',
+    title: 'Search PAD Actions',
+    description: 'Search the bundled Power Automate Desktop action catalog by English query and/or exact module, or supply an exact action_id alone for its full catalog record, parameters and Robin example. Use the selected power_fx edition. This tool looks up actions; it does not execute them.',
     inputSchema: z.strictObject({
       ...lookup, module: optionalText(100), action_id: optionalText(300)
     }), annotations
@@ -39,7 +41,8 @@ export function createServer() {
     return result(searchActions(args));
   });
   server.registerTool('search_type_reference', {
-    description: 'Find PAD parameter types by English query, or supply an exact type_name (including generic notation) for syntax and examples.',
+    title: 'Search PAD Parameter Types',
+    description: 'Search the bundled Power Automate Desktop parameter type reference by English query, or supply an exact type_name (including generic notation) for syntax and examples. Use the selected power_fx edition. This tool only returns reference information.',
     inputSchema: z.strictObject({ ...lookup, type_name: optionalText(300) }), annotations
   }, args => {
     if (Boolean(args.type_name) === Boolean(args.query)) {
